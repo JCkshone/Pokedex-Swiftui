@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "resolver",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/hmlongco/Resolver.git",
+      "state" : {
+        "revision" : "97de0b0320036607564af4a60025b48f8d041221",
+        "version" : "1.5.0"
+      }
+    },
+    {
+      "identity" : "swiftlintplugin",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/GayleDunham/SwiftLintPlugin.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "65ca1983d882eed5f8662ebaf226e902abb9fe52"
+      }
+    }
+  ],
+  "version" : 2
+}

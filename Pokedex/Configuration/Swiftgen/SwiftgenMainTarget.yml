@@ -1,0 +1,11 @@
+xcassets:
+  inputs:
+    - ../../Pokedex/Resources/Assets.xcassets
+    - ../../Pokedex/Resources/Colors.xcassets
+  outputs:
+    - templateName: swift5
+      output: Generated/Assets.swift
+      params:
+        publicAccess: public
+        enumName: PokedexResources
+        allValues: true
