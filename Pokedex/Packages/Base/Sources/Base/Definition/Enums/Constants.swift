@@ -18,6 +18,7 @@ public enum Constants {
     public enum Api {
         public static var baseUrl = URL(string: "https://pokeapi.co")
         public static var baseImageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"
+        public static var baseImageArtUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"
     }
 
     enum Value {

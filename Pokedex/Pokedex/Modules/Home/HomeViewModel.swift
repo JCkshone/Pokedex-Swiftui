@@ -42,13 +42,19 @@ protocol HomeViewModelProtocol {
     func viewDidLoad()
 }
 
+enum HomeViewModelFullScreenType: Identifiable {
+    var id: String { String(reflecting: self) }
+    
+    case filter
+    case pokemonDetail(_: Pokemon)
+}
 final class HomeViewModel: ObservableObject {
     @Published var viewState: HomeViewState = .none
     @Published var searchValue: String = .empty
     @Published var pokemos: [Pokemon] = []
     @Published var currentPokemonTypes: [PokemonType] = []
     @Published var filterTypeSelected: PokemonType = .none
-    @Published var showFilter = false
+    @Published var fullScreenType: HomeViewModelFullScreenType?
 
     private var originalPokemos: [Pokemon] = []
     
@@ -68,8 +74,12 @@ extension HomeViewModel {
         triggerLoadPokemons()
     }
     
-    func changeFilterVisibility(_ show: Bool = true) {
-        showFilter = show
+    func showFullScreen(with type: HomeViewModelFullScreenType) {
+        fullScreenType =  type
+    }
+
+    func dismissFullScreen() {
+        fullScreenType = nil
     }
     
     func clearFilters() {

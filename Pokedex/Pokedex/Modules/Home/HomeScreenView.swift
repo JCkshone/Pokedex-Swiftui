@@ -18,7 +18,7 @@ struct HomeScreenView: View {
         ZStack {
             VStack {
                 SearchView(searchValue: $viewModel.searchValue) {
-                    viewModel.changeFilterVisibility()
+                    viewModel.showFullScreen(with: .filter)
                 }.focused($isSearchFocused)
                 
                 if viewModel.filterTypeSelected != .none {
@@ -61,12 +61,19 @@ struct HomeScreenView: View {
                     }
             }.opacity(pokeBallOpacity)
         }
-        .fullScreenCover(isPresented: $viewModel.showFilter) {
-            PokemonFilterScreenView(
-                typeSelected: $viewModel.filterTypeSelected,
-                types: viewModel.currentPokemonTypes
-            ) {
-                viewModel.changeFilterVisibility(false)
+        .fullScreenCover(item: $viewModel.fullScreenType) { type in
+            switch type {
+            case .filter:
+                PokemonFilterScreenView(
+                    typeSelected: $viewModel.filterTypeSelected,
+                    types: viewModel.currentPokemonTypes
+                ) {
+                    viewModel.dismissFullScreen()
+                }
+            case let .pokemonDetail(pokemon):
+                PokemonDetailScreenView(pokemon: pokemon) {
+                    viewModel.dismissFullScreen()
+                }
             }
         }
         .onReceive(viewModel.$viewState) { state in
@@ -79,10 +86,6 @@ struct HomeScreenView: View {
         }
     }
     
-    func dissmissModal() {
-        
-    }
-    
     @ViewBuilder
     func buildViewState(viewState: HomeViewState) -> some View {
         switch viewState {
@@ -90,13 +93,15 @@ struct HomeScreenView: View {
             ScrollView {
                 ForEach(viewModel.pokemos) { pokemon in
                     LazyVStack(spacing: .zero) {
-                        PokemonView(pokemon: pokemon)
-                            .onAppear {
-                                if pokemon.id == viewModel.pokemos.count && viewModel.viewState != .isLoading {
-                                    viewModel.triggerLoadPokemons(increment: true)
-                                    BaseLogger.warning("Dispatch new loading")
-                                }
+                        PokemonView(pokemon: pokemon) {
+                            viewModel.showFullScreen(with: .pokemonDetail(pokemon))
+                        }
+                        .onAppear {
+                            if pokemon.id == viewModel.pokemos.count && viewModel.viewState != .isLoading {
+                                viewModel.triggerLoadPokemons(increment: true)
+                                BaseLogger.warning("Dispatch new loading")
                             }
+                        }
                     }
                 }
             }.scrollDismissesKeyboard(.immediately)

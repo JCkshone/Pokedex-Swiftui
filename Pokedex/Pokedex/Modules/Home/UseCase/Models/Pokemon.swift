@@ -11,6 +11,7 @@ import Base
 struct Pokemon: Decodable, Identifiable {
     let id: Int
     let name: String
+    let art: String
     let image: String
     let types: [PokemonType]
     
@@ -23,11 +24,13 @@ struct Pokemon: Decodable, Identifiable {
     init(
         id: Int,
         name: String,
+        art: String,
         image: String,
         types: [PokemonType]
     ) {
         self.id = id
         self.name = name
+        self.art = art
         self.image = image
         self.types = types
     }
@@ -36,6 +39,7 @@ struct Pokemon: Decodable, Identifiable {
         
         id = try container.decode(Int.self, forKey: .id)
         name = try container.decode(String.self, forKey: .name)
+        art = "\(Constants.Api.baseImageArtUrl)\(id).png"
         image = "\(Constants.Api.baseImageUrl)\(id).png"
         
         if let valueDict = try? container.decode([String: Any].self)["types"] as? [[String: Any]] {
