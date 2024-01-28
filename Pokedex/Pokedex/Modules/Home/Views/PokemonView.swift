@@ -57,8 +57,11 @@ struct PokemonView: View {
             id: .zero,
             name: .empty, 
             art: .empty,
-            image: .empty,
-            types: []
+            image: .empty, 
+            weight: .zero, 
+            height: .zero,
+            types: [], 
+            abilities: []
         )
     ) {
         

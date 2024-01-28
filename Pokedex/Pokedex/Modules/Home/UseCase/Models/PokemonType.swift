@@ -53,6 +53,15 @@ struct PokemonTypeName: Decodable {
     let name: PokemonType
 }
 
+struct PokemonAbilities: Decodable, Identifiable {
+    var id: String { String(reflecting: self) }
+    let ability: Ability
+}
+
+struct Ability: Decodable {
+    let name: String
+}
+
 extension PokemonType {
     var gradient: [Gradient.Stop] {
         switch self {

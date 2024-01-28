@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct PokemonDetailScreenView: View {
-    private var screenView = UIScreen.main.bounds.size
-    
     var pokemon: Pokemon
     var completion: () -> Void
     
@@ -27,9 +25,10 @@ struct PokemonDetailScreenView: View {
                 pokemonImage: pokemon.art,
                 imagePlaceholder: (pokemon.types.first ?? .electric).iconClear, 
                 pokemonType: pokemon.types.first ?? .electric,
-                screenView: screenView,
                 action: completion
             )
+            .frame(maxHeight: 300)
+            .ignoresSafeArea(.container, edges: .top)
             VStack {
                 Text(pokemon.name.capitalized)
                     .font(.custom(.regular, size: 32))
@@ -45,13 +44,30 @@ struct PokemonDetailScreenView: View {
                     Spacer()
                 }
             }
-            .offset(x: 80)
-            .padding(.top)
+            .padding(.horizontal)
             
             Divider()
                 .padding(.all)
+            
+            HStack(spacing: 20) {
+                PokemonCapabilityView(
+                    title: "Peso",
+                    iconName: "scalemass",
+                    value: "\(pokemon.weight) kg"
+                )
+                
+                PokemonCapabilityView(
+                    title: "Altura",
+                    iconName: "square.resize",
+                    value: "\(pokemon.height) m"
+                )
+            }
+            .padding(.horizontal)
+            
+            PokemonAbilitiesView(abilities: pokemon.abilities)
+            
             Spacer()
-        }.ignoresSafeArea(.all)
+        }
     }
 }
 
@@ -61,8 +77,11 @@ struct PokemonDetailScreenView: View {
             id: 120,
             name: "Bulbasaur",
             art: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png",
-            image: .empty,
-            types: []
+            image: .empty, 
+            weight: .zero, 
+            height: .zero,
+            types: [], 
+            abilities: []
         )
     ) {}
 }
